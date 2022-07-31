@@ -1,5 +1,5 @@
 [package]
-name = "matrix"
+name = "matrix-backend"
 version = "0.1.0"
 authors = ["Chris Donnelly <chris@donnelly.ai>"]
 edition = "2021"
