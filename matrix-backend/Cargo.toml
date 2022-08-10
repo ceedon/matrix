@@ -11,3 +11,4 @@ rppal = { version = "0.13.1", features = ["hal"] }
 adafruit-led-backpack = "0.1.0"
 embedded-hal = "0.2"
 ht16k33 = { version = "0.4", default-features = false }
+juniper = "0.15"
