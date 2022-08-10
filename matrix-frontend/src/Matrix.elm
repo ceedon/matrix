@@ -4,6 +4,7 @@ module Matrix exposing (main)
 --import Element.Font       as        Font
 
 import Browser
+import Debug exposing (toString)
 import Dict exposing (Dict)
 import Element exposing (..)
 import Element.Background as Background
@@ -30,12 +31,12 @@ gridHeight =
 
 imageWidth : number
 imageWidth =
-    256
+    32
 
 
 imageHeight : number
 imageHeight =
-    384
+    32
 
 
 
@@ -44,7 +45,7 @@ imageHeight =
 
 imageOffset : number
 imageOffset =
-    128
+    0
 
 
 
@@ -136,7 +137,7 @@ drawCell : Grid -> Pos -> Element Msg
 drawCell _ p =
     el
         [ onClick <| ClickedCell p
-        , moveDown (imageHeight / 2)
+        , moveDown ((imageHeight - imageOffset) / 2)
         , moveRight ((toFloat gridWidth + 1) * (imageWidth / 2))
         ]
     <|
@@ -144,8 +145,8 @@ drawCell _ p =
             [ moveDown ((imageHeight - imageOffset) / 4 * toFloat (first p))
             , moveLeft ((imageWidth / 2 * toFloat (first p)) + (imageWidth / 2 * toFloat (second p)))
             ]
-            { src = "./img/block-barren.png"
-            , description = "Stolen block"
+            { src = "./img/block-dark.svg"
+            , description = "Stolen block" ++ toString p
             }
 
 
@@ -160,7 +161,7 @@ drawCellRow b ps =
                 [] ->
                     0
     in
-    row [ moveUp ((imageHeight - imageOffset / 2) * toFloat rowNum) ] (List.map (drawCell b) ps)
+    row [ moveUp ((imageHeight - imageOffset) * 0.75 * toFloat rowNum) ] (List.map (drawCell b) ps)
 
 
 
