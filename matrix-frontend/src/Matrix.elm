@@ -18,20 +18,35 @@ gridWidth : Int
 gridWidth =
     8
 
+
 gridHeight : Int
 gridHeight =
     8
 
+
+
 -- in px
+
+
 imageWidth : number
-imageWidth = 256 
+imageWidth =
+    256
+
 
 imageHeight : number
-imageHeight = 384
+imageHeight =
+    384
+
+
 
 --empty space above image
+
+
 imageOffset : number
-imageOffset = 128
+imageOffset =
+    128
+
+
 
 -- Model
 
@@ -114,9 +129,6 @@ printGrid model =
                     )
                     ys
                 )
-                , el [] <| image [] { src = "./img/block-barren.png"
-            , description = "Stolen block"
-            }
             ]
 
 
@@ -129,7 +141,7 @@ drawCell _ p =
         ]
     <|
         image
-            [ moveDown (((imageHeight - imageOffset) / 4 * toFloat (first p)) - ((imageHeight - imageOffset / 2) * toFloat (second p)))
+            [ moveDown ((imageHeight - imageOffset) / 4 * toFloat (first p))
             , moveLeft ((imageWidth / 2 * toFloat (first p)) + (imageWidth / 2 * toFloat (second p)))
             ]
             { src = "./img/block-barren.png"
@@ -139,7 +151,16 @@ drawCell _ p =
 
 drawCellRow : Grid -> List Pos -> Element Msg
 drawCellRow b ps =
-    row [] (List.map (drawCell b) ps)
+    let
+        rowNum =
+            case ps of
+                p :: _ ->
+                    second p
+
+                [] ->
+                    0
+    in
+    row [ moveUp ((imageHeight - imageOffset / 2) * toFloat rowNum) ] (List.map (drawCell b) ps)
 
 
 
