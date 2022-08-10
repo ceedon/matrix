@@ -7,7 +7,7 @@ import Browser
 import Dict exposing (Dict)
 import Element exposing (..)
 import Element.Background as Background
-import Element.Events exposing (onClick)
+import Element.Events exposing (onClick, onMouseEnter, onMouseLeave)
 import Element.Region exposing (description)
 import Html exposing (Html)
 import Tuple exposing (first, second)
@@ -18,12 +18,20 @@ gridWidth : Int
 gridWidth =
     8
 
-
 gridHeight : Int
 gridHeight =
     8
 
+-- in px
+imageWidth : number
+imageWidth = 256 
 
+imageHeight : number
+imageHeight = 384
+
+--empty space above image
+imageOffset : number
+imageOffset = 128
 
 -- Model
 
@@ -98,7 +106,7 @@ printGrid model =
             List.map (\x -> ( x, y )) xs
     in
     layout [] <|
-        row []
+        column []
             [ column []
                 (List.map
                     (\y ->
@@ -106,6 +114,9 @@ printGrid model =
                     )
                     ys
                 )
+                , el [] <| image [] { src = "./img/block-barren.png"
+            , description = "Stolen block"
+            }
             ]
 
 
@@ -113,13 +124,13 @@ drawCell : Grid -> Pos -> Element Msg
 drawCell _ p =
     el
         [ onClick <| ClickedCell p
-        , moveDown 256
-        , moveRight ((toFloat gridWidth + 1) * 128)
+        , moveDown (imageHeight / 2)
+        , moveRight ((toFloat gridWidth + 1) * (imageWidth / 2))
         ]
     <|
         image
-            [ moveDown ((64 * toFloat (first p)) - (320 * toFloat (second p)))
-            , moveLeft ((128 * toFloat (first p)) + (128 * toFloat (second p)))
+            [ moveDown (((imageHeight - imageOffset) / 4 * toFloat (first p)) - ((imageHeight - imageOffset / 2) * toFloat (second p)))
+            , moveLeft ((imageWidth / 2 * toFloat (first p)) + (imageWidth / 2 * toFloat (second p)))
             ]
             { src = "./img/block-barren.png"
             , description = "Stolen block"
