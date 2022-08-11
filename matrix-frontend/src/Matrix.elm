@@ -127,10 +127,13 @@ printGrid model =
 
 drawCell : Grid -> Pos -> Element Msg
 drawCell _ p =
+    let
+        colNum = toFloat(first p)
+    in
     el [] <|
         image
-            [ moveDown (gridUnit * toFloat (first p))
-            , moveLeft (2 * gridUnit * toFloat (first p))
+            [ moveDown (gridUnit * colNum)
+            , moveLeft (2 * gridUnit * colNum)
             ]
             { src = "./img/block.png"
             , description = "Stolen block" ++ toString p
