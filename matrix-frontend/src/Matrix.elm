@@ -123,7 +123,10 @@ printGrid model =
     in
     layout [] <|
         column []
-            [ column []
+            [ column
+                [ moveRight ((toFloat gridWidth + 1) * imageWidth / 2)
+                , moveDown imageHeight
+                ]
                 (List.map
                     (\y ->
                         drawCellRow grid (toRow y)
@@ -135,12 +138,7 @@ printGrid model =
 
 drawCell : Grid -> Pos -> Element Msg
 drawCell _ p =
-    el
-        [ onClick <| ClickedCell p
-        , moveDown ((imageHeight - imageOffset) / 2)
-        , moveRight ((toFloat gridWidth + 1) * (imageWidth / 2))
-        ]
-    <|
+    el [] <|
         image
             [ moveDown ((imageHeight - imageOffset) / 4 * toFloat (first p))
             , moveLeft ((imageWidth / 2 * toFloat (first p)) + (imageWidth / 2 * toFloat (second p)))
