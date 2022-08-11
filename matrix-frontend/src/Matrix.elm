@@ -26,27 +26,16 @@ gridHeight =
 
 
 
--- in px
 
+imageWidth : Float
+imageWidth = 256
 
-imageWidth : number
-imageWidth =
-    32
+imageHeight : Float
+imageHeight = 512
 
-
-imageHeight : number
-imageHeight =
-    32
-
-
-
---empty space above image
-
-
-imageOffset : number
-imageOffset =
-    0
-
+gridUnit : Float
+gridUnit =
+    imageWidth / 4
 
 
 -- Model
@@ -125,7 +114,7 @@ printGrid model =
         column []
             [ column
                 [ moveRight ((toFloat gridWidth + 1) * imageWidth / 2)
-                , moveDown imageHeight
+                , moveDown (imageHeight / 2)
                 ]
                 (List.map
                     (\y ->
@@ -140,10 +129,10 @@ drawCell : Grid -> Pos -> Element Msg
 drawCell _ p =
     el [] <|
         image
-            [ moveDown ((imageHeight - imageOffset) / 4 * toFloat (first p))
-            , moveLeft ((imageWidth / 2 * toFloat (first p)) + (imageWidth / 2 * toFloat (second p)))
+            [ moveDown (gridUnit * toFloat (first p))
+            , moveLeft (2 * gridUnit * toFloat (first p))
             ]
-            { src = "./img/block-dark.svg"
+            { src = "./img/block.png"
             , description = "Stolen block" ++ toString p
             }
 
@@ -154,12 +143,14 @@ drawCellRow b ps =
         rowNum =
             case ps of
                 p :: _ ->
-                    second p
+                    toFloat(second p)
 
                 [] ->
-                    0
+                    0.0
     in
-    row [ moveUp ((imageHeight - imageOffset) * 0.75 * toFloat rowNum) ] (List.map (drawCell b) ps)
+    row
+    [ moveUp ((imageHeight - gridUnit) * rowNum)
+    , moveLeft (gridUnit * (2 * rowNum))] (List.map (drawCell b) ps)
 
 
 
